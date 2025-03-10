@@ -1,0 +1,40 @@
+CREATE TABLE categorias(
+categoria_id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+descricao text
+);
+CREATE TABLE fornecedor(
+fornecedor_id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+telefone VARCHAR(100),
+endereco TEXT NOT NULL
+);
+CREATE TABLE produtos(
+produtos_id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+descricao text,
+preco DECIMAL(10,2) NOT NULL,
+quantidade_estoque INT NOT NULL,
+categoria_id INT,
+fornecedor_id INT,
+foreign key (categoria_id) REFERENCES categorias(categoria_id) ON DELETE SET NULL,
+FOREIgn KEY(fornecedor_id) REFERENCES fornecedor(fornecedor_id) ON DELETE SET NULL
+);
+
+CREATE TABLE entrada_estoque(
+entrada_id INT AUTO_INCREMENT PRIMARY KEY,
+produto_id INT NOT NULL,
+quantidade INT NOT NULL,
+data_entrada DATETIME DEFAULT CURRENT_TIMESTAMP,
+fornecedor_id INT,
+foreign key (produto_id) REFERENCES produtos(produtos_id) ON DELETE CASCADE,
+foreign key (fornecedor_id) REFERENCES fornecedor(fornecedor_id) ON DELETE SET NULL
+);
+CREATE TABLE saida_estoque(
+saida_id INT AUTO_INCREMENT PRIMARY KEY,
+produto_id INT NOT NULL,
+quantidade INT NOT NULL,
+data_saida DATETIME DEFAULT CURRENT_TIMESTAMP,
+destino VARCHAR(100) NOT NULL,
+foreign key (produto_id) REFERENCES produtos(produtos_id) ON DELETE CASCADE
+);
